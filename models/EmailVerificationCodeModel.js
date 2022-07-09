@@ -12,14 +12,19 @@ const EmailVerificationCodeSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
   },
-  { timestamps: true }
+  { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
 
-EmailVerificationCodeSchema.virtual("isValid").get(function () {
+EmailVerificationCodeSchema.virtual("isExpired").get(function () {
   const now = moment();
   const createdAt = moment(this.createdAt);
-  return now.isBefore(createdAt.add());
+  const expiryDate = createdAt.clone().add(1, "hours");
+  return now.isAfter(expiryDate);
 });
 
 export default mongoose.model(
