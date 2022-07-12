@@ -2,6 +2,7 @@ import UserModel from "../models/UserModel";
 import getRandomInt from "../helpers/getRandomInt";
 import sendEmail from "../helpers/sendEmail";
 import CustomErrors from "../errors";
+import getResponseUser from "../helpers/getResponseUser";
 
 export const logout = async (request, response) => {
   await request.session.destroy();
@@ -46,18 +47,6 @@ export const otpSignIn = async (request, response) => {
     request.session.user = responseUser;
   }
   response.json({ user: responseUser });
-  //   const lastVerificationCodeForThisEmail =
-  //     await EmailVerificationCodeModel.find().sort("-_id").findOne({ email });
-  //   if (!lastVerificationCodeForThisEmail) {
-  //     throw new CustomErrors.BadRequestError("invalid email");
-  //   } else if (lastVerificationCodeForThisEmail.isExpired) {
-  //     throw new CustomErrors.BadRequestError("invalid email");
-  //   } else if (lastVerificationCodeForThisEmail.code !== code) {
-  //     throw new CustomErrors.BadRequestError("invalid email");
-  //   }
-  //   lastVerificationCodeForThisEmail.isVerified = true;
-  //   await lastVerificationCodeForThisEmail.save();
-  //   response.json({ email });
 };
 
 export const sendEmailOTP = async (request, response) => {
@@ -81,17 +70,4 @@ export const sendEmailOTP = async (request, response) => {
   response.json({
     user: getResponseUser({ user }),
   });
-};
-
-const getResponseUser = ({ user }) => {
-  return {
-    id: user.id,
-    email: user.email,
-    didRegister: user.didRegister,
-    createdAt: user.createdAt,
-    updatedAt: user.updatedAt,
-    city: user.city,
-    name: user.name,
-    phone: user.phone,
-  };
 };

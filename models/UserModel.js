@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import moment from "moment";
 import { CityModelSchema } from "./CityModel";
+import { UserAddressSchema } from "./UserAddressModel";
 
 const UserModelSchema = new mongoose.Schema(
   {
@@ -38,6 +39,9 @@ const UserModelSchema = new mongoose.Schema(
     },
     neighborhoodName: {
       type: String,
+    },
+    addresses: {
+      type: [UserAddressSchema],
     },
   },
   { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }

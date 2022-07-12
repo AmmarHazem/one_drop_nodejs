@@ -5,8 +5,8 @@ const sendEmail = ({ to, subject, text, html }) => {
     host: "smtp.ethereal.email",
     port: 587,
     auth: {
-      user: "seamus.ruecker70@ethereal.email",
-      pass: "Xu4ZBX6sYVuQQmCBz2",
+      user: "bailey.littel46@ethereal.email",
+      pass: "vFU4h3uuc3KjxWSp55",
     },
   });
   return transporter.sendMail({

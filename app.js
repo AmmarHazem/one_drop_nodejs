@@ -8,6 +8,7 @@ import routeNotFoundMiddleware from "./middleware/routeNotFoundMiddleware";
 import errorHandlerMiddleware from "./middleware/errorHandlerMiddleware";
 import countryRoutes from "./routes/countryRoutes";
 import cityRoutes from "./routes/cityRoutes";
+import userRoutes from "./routes/userRoutes";
 
 const app = express();
 const oneDay = 1000 * 60 * 60 * 24;
@@ -26,11 +27,12 @@ app.use(
 );
 app.use(express.json());
 
+app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/cities", cityRoutes);
 app.use("/api/v1/countries", countryRoutes);
 app.use("/api/v1/auth", authRoutes);
 app.use("/testing-here", async (request, response) => {
-  console.log("--- session", request.session);
+  // console.log("--- session", request.session);
   const user = request.session.user;
   response.json({ user });
 });
