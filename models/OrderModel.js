@@ -20,6 +20,13 @@ const OrderSchema = new mongoose.Schema(
     },
     coupon: {
       type: DiscountCouponSchema,
+      transform: (value) => {
+        if (!value) return null;
+        return {
+          code: value.code,
+          discountPercentage: value.discountPercentage,
+        };
+      },
     },
     status: {
       type: String,
@@ -41,7 +48,7 @@ const OrderSchema = new mongoose.Schema(
     paymentDate: {
       type: Date,
     },
-    cancelation: {
+    cancelationDate: {
       type: Date,
     },
   },

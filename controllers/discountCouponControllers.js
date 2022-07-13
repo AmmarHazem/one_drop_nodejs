@@ -1,6 +1,7 @@
 import { StatusCodes } from "http-status-codes";
 import DiscountCouponModel from "../models/DiscountCouponModel";
 import getRandomInt from "../helpers/getRandomInt";
+import CustomErrors from "../errors";
 
 export const getDiscountCoupons = async (request, response) => {
   const coupons = await DiscountCouponModel.find({});
@@ -57,6 +58,12 @@ export const createDiscountCoupon = async (request, response) => {
   }${couponChars[getRandomInt(couponChars.length)]}${
     couponChars[getRandomInt(couponChars.length)]
   }`;
+  const couponsWithSameCodeCount = await DiscountCouponModel.countDocuments({
+    code: couponCode,
+  });
+  if (couponsWithSameCodeCount > 0) {
+    throw new Error("Invalid coupon code");
+  }
   const coupon = await DiscountCouponModel.create({
     code: couponCode,
     expiryDate,
