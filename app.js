@@ -4,6 +4,7 @@ import express from "express";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import fileUpload from "express-fileupload";
+import cors from "cors";
 import authRoutes from "./routes/authRoutes";
 import routeNotFoundMiddleware from "./middleware/routeNotFoundMiddleware";
 import errorHandlerMiddleware from "./middleware/errorHandlerMiddleware";
@@ -19,6 +20,22 @@ import orderRoutes from "./routes/orderRoutes";
 const app = express();
 const oneDay = 1000 * 60 * 60 * 24;
 
+app.use(
+  cors({
+    credentials: true,
+    exposedHeaders: ["Set-Cookie"],
+    maxAge: oneDay,
+    preflightContinue: true,
+    origin: true,
+    methods: ["GET", "PUT", "POST", "DELETE", "UPDATE", "OPTIONS"],
+    allowedHeaders: [
+      "X-Requested-With",
+      "X-HTTP-Method-Override",
+      "Content-Type",
+      "Accept",
+    ],
+  })
+);
 app.use(express.static("./public"));
 app.use(fileUpload({ useTempFiles: true }));
 app.use(
